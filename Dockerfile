@@ -1,10 +1,15 @@
-FROM ubuntu:14.04
-MAINTAINER vivekkr536@gmail.com
-RUN apt-get install -y apache2 \
-   zip \
-   unzip
- ADD https://www.free-css.com/assets/files/free-css-templates/download/page294/shapel.zip /var/www/html
- WORKDIR /var/www/html
- RUN unzip shapel.zip
- RUN cp -vrf shapel-html /*
-CMD ["apache2ctl", "-D", "FOREGROUND"]
+# Use an official Nginx base image
+FROM nginx:latest
+
+# Label indicating the maintainer of the image
+LABEL maintainer="Your Name <your.email@example.com>"
+
+# Copy custom HTML file to the default Nginx public folder
+COPY index.html /usr/share/nginx/html/index.html
+
+# Expose port 80 to allow external access
+EXPOSE 80
+
+# Command to start Nginx when the container starts
+CMD ["nginx", "-g", "daemon off;"]
+
